@@ -22,6 +22,10 @@ import {
 } from '@ant-design/icons-vue'
 import type { MenuItemClickEvent } from './Sider.types'
 import { useRouter, useRoute } from 'vue-router'
+import { useChatDataStore } from '@/stores/chatData'
+
+const chatDataStore = useChatDataStore()
+const { createNewSession } = chatDataStore
 
 const router = useRouter()
 const route = useRoute()
@@ -76,7 +80,15 @@ const items = reactive([
   },
 ])
 
+/**
+ * 处理侧边栏点击事件
+ */
 const handleCurrentItem = (currentItem: MenuItemClickEvent) => {
+  // 新建对话
+  if (currentItem.key === items[1].key) {
+    createNewSession()
+  }
+  // 路由跳转
   if (route.path !== currentItem.key) {
     router.push(currentItem.key)
   }

@@ -25,17 +25,45 @@
         >
         </a-button>
       </a-tooltip>
+
+      <div class="upload-model">
+        <a-button
+          class="upload-btn"
+          :icon="h(UploadOutlined)"
+          shape="circle"
+          type="primary"
+          @click="showModal"
+        >
+        </a-button>
+        <a-modal v-model:open="open" width="60%" wrap-class-name="full-modal" @ok="handleOk">
+          <a-upload-dragger
+            v-model:fileList="fileList"
+            name="file"
+            :multiple="true"
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            @change="handleChange"
+            @drop="handleDrop"
+          >
+            <p class="ant-upload-drag-icon">
+              <inbox-outlined></inbox-outlined>
+            </p>
+            <p class="ant-upload-text">单击或将文件拖到此区域进行上传</p>
+            <p class="ant-upload-hint">支持单次或批量上传</p>
+          </a-upload-dragger>
+        </a-modal>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, h, useTemplateRef, onMounted, nextTick } from 'vue'
-import { ArrowUpOutlined } from '@ant-design/icons-vue'
+import { ArrowUpOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import Chat from '@/components/Chat.vue'
 import { storeToRefs } from 'pinia'
 import { message } from 'ant-design-vue'
 import { useChatDataStore } from '@/stores/chatData'
+import type { UploadChangeParam } from 'ant-design-vue'
 
 const chatDataStore = useChatDataStore()
 const { getCurrentMessages } = storeToRefs(chatDataStore)
@@ -47,10 +75,6 @@ const messagesContainerDOM = useTemplateRef('messagesContainer')
 
 /**
  * 处理文本框事件
- *
- * Ctrl+Enter 换行
- *
- * Enter 发送
  */
 const handlePressEnter = (e: { key: string; ctrlKey: any; preventDefault: () => void }) => {
   if (e.key === 'Enter') {
@@ -101,6 +125,34 @@ const scrollToBottom = () => {
 }
 
 onMounted(() => {})
+
+const fileList = ref([])
+
+const open = ref<boolean>(false)
+
+const showModal = () => {
+  open.value = true
+}
+
+const handleOk = (e: MouseEvent) => {
+  console.log(e)
+  open.value = false
+}
+
+function handleDrop(e: DragEvent) {
+  console.log(e)
+}
+
+const handleChange = (info: UploadChangeParam) => {
+  if (info.file.status !== 'uploading') {
+    console.log(info.file, info.fileList)
+  }
+  if (info.file.status === 'done') {
+    message.success(`${info.file.name} file uploaded successfully`)
+  } else if (info.file.status === 'error') {
+    message.error(`${info.file.name} file upload failed.`)
+  }
+}
 </script>
 
 <style scoped>
@@ -122,7 +174,7 @@ onMounted(() => {})
   background: #f7f7f7;
   border-radius: 10px;
   margin-bottom: 15px;
-  overflow-y: auto; /* 超出部分出现垂直滚动条 */
+  overflow-y: auto;
 }
 
 /* 输入区域 */
@@ -147,5 +199,35 @@ onMounted(() => {})
     right: 5px;
     z-index: 10;
   }
+
+  .upload-wrapper {
+    position: absolute;
+    top: 0;
+  }
+
+  .upload .ant-upload {
+    /* position: absolute;
+    bottom: 0;
+    z-index: 10; */
+  }
+
+  .upload-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 45px;
+  }
+}
+</style>
+
+<style>
+.upload .ant-upload-list {
+  /* display: flex;
+  flex-direction: column; */
+  /* position: absolute; */
+  /* bottom: 65px;
+  right: -35px; */
+  /* top: -40px; */
+  z-index: 10;
+  /* width: 100%; */
 }
 </style>
