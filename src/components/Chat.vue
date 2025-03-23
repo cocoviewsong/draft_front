@@ -13,7 +13,22 @@
           </template>
           <template #content>
             <div>
-              <div v-html="item.content"></div>
+              <div v-if="item.type === 'text'" v-html="item.content"></div>
+              <div v-else-if="item.type === 'file'" class="file-message">
+                <div class="file-icon">
+                  <FileOutlined />
+                </div>
+                <div class="file-info">
+                  <div class="file-name">{{ item.content }}</div>
+                  <div class="file-meta">
+                    <span>{{ formatFileSize(item.fileSize) }}</span>
+                    <span>{{ item.fileType }}</span>
+                  </div>
+                </div>
+                <a-button type="link" :href="item.fileUrl" target="_blank" class="file-download">
+                  <DownloadOutlined />
+                </a-button>
+              </div>
             </div>
           </template>
 
@@ -68,7 +83,14 @@
 
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue'
-import { LikeFilled, LikeOutlined, DislikeFilled, DislikeOutlined } from '@ant-design/icons-vue'
+import {
+  LikeFilled,
+  LikeOutlined,
+  DislikeFilled,
+  DislikeOutlined,
+  FileOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons-vue'
 
 const props = defineProps(['chatMessageList'])
 onMounted(() => {
@@ -99,20 +121,176 @@ const dislike = (id: any) => {
   reaction.likes = 0
   reaction.action = isDisliked ? '' : 'disliked'
 }
+
+/**
+ * 格式化文件大小
+ */
+const formatFileSize = (size?: number) => {
+  if (!size) return '未知大小'
+  const units = ['B', 'KB', 'MB', 'GB']
+  let index = 0
+  let fileSize = size
+
+  while (fileSize >= 1024 && index < units.length - 1) {
+    fileSize /= 1024
+    index++
+  }
+
+  return `${fileSize.toFixed(2)} ${units[index]}`
+}
 </script>
 
 <style scoped>
-.ant-list-item {
-  padding-left: 0;
-  padding-right: 0;
+.chat-bot,
+.chat-user {
+  display: flex;
+  align-items: flex-start;
+  padding: 2px 0;
+
+  .ant-comment {
+    width: 100%;
+  }
+
+  .ant-comment-inner {
+    display: flex;
+    align-items: flex-start;
+    padding: 0;
+  }
+
+  .ant-comment-content {
+    flex: 1;
+  }
+
+  .ant-comment-content-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .ant-comment-content-detail {
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .ant-comment-avatar {
+    margin: 0 16px 0 0;
+    cursor: pointer;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  }
 }
-.ant-list-item:first-child {
-  padding-top: 0;
+
+.chat-user {
+  justify-content: flex-end;
+
+  .ant-comment {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .ant-comment-inner {
+    flex-direction: row-reverse;
+  }
+
+  .ant-comment-content {
+    margin-right: 16px;
+    margin-left: 0;
+  }
+
+  .ant-comment-content-detail {
+    text-align: right;
+  }
+
+  :deep(.ant-comment-inner) {
+    display: flex;
+    flex-direction: row-reverse;
+    align-self: flex-end;
+  }
 }
-.chat-bot {
-  .ant-comment-nested span {
-    color: #999;
-    margin-right: 5px;
+
+:deep(.chat-user .ant-comment-content-author) {
+  justify-content: flex-end;
+}
+
+:deep(.chat-bot .ant-comment-content-author) {
+  justify-content: flex-start;
+}
+
+:deep(.ant-comment-nested) {
+  display: flex;
+  gap: 5px;
+}
+
+/* 文件消息样式 */
+.file-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color-light);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.file-message:hover {
+  background: var(--hover-bg);
+  border-color: var(--border-color);
+}
+
+.file-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--brand-color-light);
+  border-radius: 8px;
+  color: var(--brand-color);
+  font-size: 20px;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-meta {
+  color: var(--text-secondary);
+  font-size: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.file-download {
+  padding: 8px;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: var(--brand-color);
+    background: var(--brand-color-light);
+  }
+}
+
+:deep(.ant-btn-link) {
+  color: var(--text-secondary);
+
+  &:hover {
+    color: var(--brand-color);
   }
 }
 </style>

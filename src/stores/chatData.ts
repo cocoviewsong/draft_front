@@ -9,6 +9,18 @@ interface MessagesType {
   avatar: string
   content: string
   type: string
+  fileUrl?: string
+  fileType?: string
+  fileSize?: number
+}
+
+interface FileItem {
+  uid: string
+  name: string
+  status: string
+  url?: string
+  type?: string
+  size?: number
 }
 
 // 定义对话会话的类型
@@ -16,48 +28,38 @@ interface Conversation {
   id: string
   title: string
   messages: MessagesType[]
+  fileList: FileItem[] // 每个会话独立的文件列表
 }
+
+const STORAGE_KEY = 'chat-sessions'
+
 /**
  * 聊天数据
  */
 export const useChatDataStore = defineStore('chatData', () => {
   // 所有聊天会话
-  const chatSessions = ref<Conversation[]>([
-    // {
-    //   id: nanoid(),
-    //   title: '对话1',
-    //   messages: [
-    //     {
-    //       id: '11',
-    //       sender: 'bot',
-    //       avatar: 'bot',
-    //       content: '你好1',
-    //       type: 'text',
-    //     },
-    //   ],
-    // },
-    // {
-    //   id: nanoid(),
-    //   title: '对话2',
-    //   messages: [
-    //     {
-    //       id: '22',
-    //       sender: 'bot',
-    //       avatar: 'bot',
-    //       content: '你好2',
-    //       type: 'text',
-    //     },
-    //   ],
-    // },
-  ])
+  const chatSessions = ref<Conversation[]>([])
+
+  // 从 localStorage 恢复数据
+  const initFromStorage = () => {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      chatSessions.value = JSON.parse(stored)
+    }
+  }
+
+  // 保存数据到 localStorage
+  const saveToStorage = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(chatSessions.value))
+  }
 
   /**
-   * 当前选中的会话ID(通过nnid()生成)
+   * 当前选中的会话ID
    */
-  const currentSessionId = ref<string | null>('1')
+  const currentSessionId = ref<string | null>(null)
 
   /**
-   * 当前选中的会话索引(高亮tag)
+   * 当前选中的会话索引
    */
   const selectedIndex = computed(() =>
     chatSessions.value.findIndex((s) => s.id === currentSessionId.value),
@@ -79,18 +81,22 @@ export const useChatDataStore = defineStore('chatData', () => {
 
   /**
    * 获取当前对话的 messages属性
-   *
-   * @returns {Array} 当前会话的所有消息
    */
   const getCurrentMessages = computed(() => {
     return currentSession.value ? currentSession.value.messages : []
   })
 
   /**
+   * 获取当前对话的文件列表
+   */
+  const getCurrentFileList = computed(() => {
+    return currentSession.value ? currentSession.value.fileList : []
+  })
+
+  /**
    * 创建新对话
    */
   const createNewSession = () => {
-    // 添加新对话
     const newSessionId = nanoid()
     const newSession = {
       id: newSessionId,
@@ -104,11 +110,11 @@ export const useChatDataStore = defineStore('chatData', () => {
           type: 'text',
         },
       ],
+      fileList: [], // 初始化空的文件列表
     }
     chatSessions.value.push(newSession)
-
-    // 更新id
     currentSessionId.value = newSessionId
+    saveToStorage()
   }
 
   /**
@@ -117,8 +123,23 @@ export const useChatDataStore = defineStore('chatData', () => {
   const addMessage = (sessionMessage: MessagesType) => {
     if (currentSession.value) {
       currentSession.value.messages.push(sessionMessage)
+      // 如果是用户发送的消息，清空当前对话的文件列表
+      if (sessionMessage.sender === 'user' && sessionMessage.type === 'text') {
+        currentSession.value.fileList = []
+      }
+      saveToStorage()
     } else {
       console.error('当前会话不存在')
+    }
+  }
+
+  /**
+   * 更新文件列表
+   */
+  const updateFileList = (files: FileItem[]) => {
+    if (currentSession.value) {
+      currentSession.value.fileList = files
+      saveToStorage()
     }
   }
 
@@ -135,7 +156,11 @@ export const useChatDataStore = defineStore('chatData', () => {
     if (wasSelected) {
       currentSessionId.value = chatSessions.value[0]?.id || null
     }
+    saveToStorage()
   }
+
+  // 初始化时从 localStorage 加载数据
+  initFromStorage()
 
   return {
     chatSessions,
@@ -145,7 +170,9 @@ export const useChatDataStore = defineStore('chatData', () => {
     addMessage,
     getAllChatIdAndTitle,
     getCurrentMessages,
+    getCurrentFileList,
     selectedIndex,
     removeSession,
+    updateFileList,
   }
 })

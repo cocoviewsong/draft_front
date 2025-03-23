@@ -1,0 +1,211 @@
+/* 全局主题变量 */
+:root {
+  /* 品牌色 */
+  --brand-color: #8b5cf6;
+  --brand-color-hover: #7c3aed;
+  --brand-color-pressed: #6d28d9;
+  --brand-color-light: rgba(139, 92, 246, 0.1);
+
+  /* 功能色 */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+
+  /* 浅色主题默认值 */
+  --header-bg: #ffffff;
+  --header-accent: #f9fafb;
+  --sider-bg: #ffffff;
+  --content-bg: #f3f4f6;
+  --card-bg: #ffffff;
+  --input-bg: #ffffff;
+  --hover-bg: #f9fafb;
+  --active-bg: #f3f4f6;
+
+  /* 阴影 */
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* 边框 */
+  --border-color: #e5e7eb;
+  --border-color-light: #f3f4f6;
+  --border-color-dark: #d1d5db;
+
+  /* 文字 */
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-disabled: #9ca3af;
+  --text-placeholder: #d1d5db;
+  --link-color: var(--brand-color);
+  --link-hover-color: var(--brand-color-hover);
+
+  /* 聊天专用颜色 */
+  --chat-user-text: #111827;
+  --chat-bot-text: #1f2937;
+  --chat-user-bg: var(--brand-color-light);
+  --chat-bot-bg: #f9fafb;
+  --chat-time: #9ca3af;
+
+  /* 滚动条 */
+  --scrollbar-thin-thumb: #e5e7eb;
+  --scrollbar-thin-track: #f9fafb;
+  --scrollbar-auto-thumb: #e5e7eb;
+  --scrollbar-auto-track: #f9fafb;
+
+  /* Ant Design Vue 变量覆盖 - 浅色主题 */
+  /* 主色相关 */
+  --ant-primary-color: var(--brand-color);
+  --ant-primary-color-hover: var(--brand-color-hover);
+  --ant-primary-color-active: var(--brand-color-pressed);
+  --ant-primary-color-outline: var(--brand-color-light);
+  --ant-primary-1: var(--brand-color-light);
+  --ant-primary-2: color-mix(in srgb, var(--brand-color) 20%, white);
+  --ant-primary-3: color-mix(in srgb, var(--brand-color) 30%, white);
+  --ant-primary-4: color-mix(in srgb, var(--brand-color) 40%, white);
+  --ant-primary-5: var(--brand-color);
+  --ant-primary-6: var(--brand-color-hover);
+  --ant-primary-7: var(--brand-color-pressed);
+
+  /* 按钮相关 */
+  --ant-btn-primary-bg: var(--brand-color);
+  --ant-btn-primary-color: white;
+  --ant-btn-primary-border: var(--brand-color);
+
+  --ant-btn-default-color: var(--text-secondary);
+  --ant-btn-default-border: var(--border-color);
+  --ant-btn-default-bg: var(--card-bg);
+
+  --ant-btn-default-hover-color: var(--brand-color);
+  --ant-btn-default-hover-border: var(--brand-color);
+  --ant-btn-default-hover-bg: var(--brand-color-light);
+
+  --ant-btn-primary-hover-bg: var(--brand-color-hover);
+  --ant-btn-primary-hover-color: white;
+  --ant-btn-primary-hover-border: var(--brand-color-hover);
+
+  --ant-btn-primary-active-bg: var(--brand-color-pressed);
+  --ant-btn-primary-active-border: var(--brand-color-pressed);
+
+  --ant-btn-disable-color: var(--text-disabled);
+  --ant-btn-disable-bg: var(--active-bg);
+  --ant-btn-disable-border: var(--border-color);
+
+  /* 功能色 */
+  --ant-success-color: var(--success-color);
+  --ant-warning-color: var(--warning-color);
+  --ant-error-color: var(--error-color);
+  --ant-info-color: var(--info-color);
+
+  /* 圆角 */
+  --ant-border-radius-base: 6px;
+
+  /* 背景和边框 */
+  --ant-component-background: var(--card-bg);
+  --ant-body-background: var(--content-bg);
+  --ant-border-color-base: var(--border-color);
+  --ant-border-color-split: var(--border-color-light);
+
+  /* 文字颜色 */
+  --ant-text-color: var(--text-primary);
+  --ant-text-color-secondary: var(--text-secondary);
+  --ant-disabled-color: var(--text-disabled);
+  --ant-disabled-bg: var(--active-bg);
+
+  /* 阴影 */
+  --ant-shadow-1-up: var(--shadow-sm);
+  --ant-shadow-1-down: var(--shadow-sm);
+  --ant-shadow-1-left: var(--shadow-sm);
+  --ant-shadow-1-right: var(--shadow-sm);
+  --ant-shadow-2: var(--shadow-md);
+  --ant-shadow-3: var(--shadow-lg);
+}
+
+/* 深色主题 */
+:root[data-theme='dark'] {
+  /* 主要背景色 */
+  --header-bg: #1a1b26;
+  --header-accent: #24283b;
+  --sider-bg: #24283b;
+  --content-bg: #1a1b26;
+  --card-bg: #24283b;
+  --input-bg: #1a1b26;
+  --hover-bg: #2f334d;
+  --active-bg: #414868;
+
+  /* 文字颜色 */
+  --text-primary: #c0caf5;
+  --text-secondary: #9aa5ce;
+  --text-disabled: #565f89;
+  --text-placeholder: #414868;
+  --link-color: #bb9af7;
+  --link-hover-color: #c4b5fd;
+
+  /* 聊天专用颜色 */
+  --chat-user-text: #c0caf5;
+  --chat-bot-text: #a9b1d6;
+  --chat-user-bg: rgba(187, 154, 247, 0.15);
+  --chat-bot-bg: #24283b;
+  --chat-time: #9aa5ce;
+
+  /* 边框和阴影 */
+  --border-color: #24283b;
+  --border-color-light: #2f334d;
+  --border-color-dark: #414868;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
+
+  /* 滚动条 */
+  --scrollbar-thin-thumb: #414868;
+  --scrollbar-thin-track: #24283b;
+  --scrollbar-auto-thumb: #414868;
+  --scrollbar-auto-track: #24283b;
+
+  /* Ant Design Vue 变量覆盖 - 深色主题 */
+  /* 按钮相关 */
+  --ant-btn-primary-bg: var(--brand-color);
+  --ant-btn-primary-color: white;
+  --ant-btn-primary-border: var(--brand-color);
+
+  --ant-btn-default-color: var(--text-secondary);
+  --ant-btn-default-border: var(--border-color);
+  --ant-btn-default-bg: var(--card-bg);
+
+  --ant-btn-default-hover-color: var(--brand-color);
+  --ant-btn-default-hover-border: var(--brand-color);
+  --ant-btn-default-hover-bg: var(--brand-color-light);
+
+  --ant-btn-primary-hover-bg: var(--brand-color-hover);
+  --ant-btn-primary-hover-color: white;
+  --ant-btn-primary-hover-border: var(--brand-color-hover);
+
+  --ant-btn-primary-active-bg: var(--brand-color-pressed);
+  --ant-btn-primary-active-border: var(--brand-color-pressed);
+
+  --ant-btn-disable-color: var(--text-disabled);
+  --ant-btn-disable-bg: var(--active-bg);
+  --ant-btn-disable-border: var(--border-color);
+
+  /* 组件背景和边框 */
+  --ant-component-background: var(--card-bg);
+  --ant-body-background: var(--content-bg);
+  --ant-border-color-base: var(--border-color);
+  --ant-border-color-split: var(--border-color-light);
+
+  /* 文字颜色 */
+  --ant-text-color: var(--text-primary);
+  --ant-text-color-secondary: var(--text-secondary);
+  --ant-disabled-color: var(--text-disabled);
+  --ant-disabled-bg: var(--active-bg);
+
+  /* 阴影 */
+  --ant-shadow-1-up: var(--shadow-sm);
+  --ant-shadow-1-down: var(--shadow-sm);
+  --ant-shadow-1-left: var(--shadow-sm);
+  --ant-shadow-1-right: var(--shadow-sm);
+  --ant-shadow-2: var(--shadow-md);
+  --ant-shadow-3: var(--shadow-lg);
+}
