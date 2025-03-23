@@ -1,12 +1,20 @@
+<!-- App.vue - 应用程序的根组件 -->
 <template>
+  <!-- 使用 a-layout 作为最外层容器，设置全屏高度和flex布局 -->
   <a-layout :style="{ height: '100vh', display: 'flex', flexDirection: 'column' }">
+    <!-- 顶部导航栏 -->
     <a-layout-header :style="headerStyle">
       <Header :headerStyleHeight="headerStyleHeight"></Header>
     </a-layout-header>
+
+    <!-- 主要内容区域 - 包含侧边栏和内容区 -->
     <a-layout :style="innerLayoutStyle">
+      <!-- 侧边栏 - 使用light主题 -->
       <a-layout-sider theme="light" :style="siderStyle">
         <Sider></Sider>
       </a-layout-sider>
+
+      <!-- 内容区域 - 用于显示路由组件 -->
       <a-layout-content :style="contentStyle">
         <RouterView></RouterView>
       </a-layout-content>
@@ -15,79 +23,53 @@
 </template>
 
 <script setup lang="ts">
+// 导入必要的组件和样式
 import Header from '@/layout/Header.vue'
 import Sider from '@/layout/Sider.vue'
 import type { CSSProperties } from 'vue'
 import '@/assets/styles/theme.css'
 
-// 头部高度
+// 定义布局常量
 const headerStyleHeight = 64
 
-// 定义颜色变量
-const colors = {
-  // 主色调
-  header: 'var(--header-bg)',
-  headerAccent: 'var(--header-accent)',
-  sider: 'var(--sider-bg)',
-  content: 'var(--content-bg)',
-
-  // 阴影
-  shadow: 'var(--shadow-color)',
-
-  // 边框
-  border: 'var(--border-color)',
-
-  // 品牌色
-  primary: 'var(--brand-color)',
-  primaryHover: 'var(--brand-color-hover)',
-
-  // 文字
-  textPrimary: 'var(--text-primary)',
-  textSecondary: 'var(--text-secondary)',
-}
-
-// Header 样式
+// 定义布局样式
+// 头部样式：固定高度、背景色、边框和阴影
 const headerStyle: CSSProperties = {
-  height: headerStyleHeight + 'px',
-  backgroundColor: colors.header,
-  borderBottom: `1px solid ${colors.border}`,
-  boxShadow: `0 1px 0 ${colors.shadow}`,
+  height: `${headerStyleHeight}px`,
+  backgroundColor: 'var(--header-bg)',
+  borderBottom: '1px solid var(--border-color)',
+  boxShadow: '0 1px 0 var(--shadow-color)',
   padding: '0 24px',
   position: 'relative',
   zIndex: 1000,
 }
 
-// 内层布局样式 (Sider + Content)
+// 内部布局样式：使用flex布局，占满剩余空间
 const innerLayoutStyle: CSSProperties = {
   flex: 1,
   display: 'flex',
-  backgroundColor: colors.content,
+  backgroundColor: 'var(--content-bg)',
   position: 'relative',
 }
 
-// Sider 样式
+// 侧边栏样式：设置背景色和边框
 const siderStyle: CSSProperties = {
-  backgroundColor: colors.sider,
-  borderRight: `1px solid ${colors.border}`,
+  backgroundColor: 'var(--sider-bg)',
+  borderRight: '1px solid var(--border-color)',
   position: 'relative',
   zIndex: 2,
 }
 
-// Content 样式
+// 内容区样式：占满剩余空间，设置背景色和文字颜色
 const contentStyle: CSSProperties = {
   flex: 1,
-  backgroundColor: colors.content,
-  color: colors.textPrimary,
+  backgroundColor: 'var(--content-bg)',
+  color: 'var(--text-primary)',
   position: 'relative',
 }
 </script>
 
 <style scoped>
-/* Sider 内容区域样式 */
-.ant-layout-sider-children {
-  background-color: var(--sider-bg);
-}
-
 /* 自定义滚动条样式 */
 ::-webkit-scrollbar {
   width: 8px;
@@ -109,24 +91,21 @@ const contentStyle: CSSProperties = {
   background-color: var(--scrollbar-auto-thumb);
 }
 
-/* 全局过渡效果 */
+/* 布局过渡效果 */
 .ant-layout-header,
 .ant-layout-sider,
 .ant-layout-content {
   transition: all 0.3s ease;
 }
 
-/* 选中效果 */
+/* 文本选中效果 */
 ::selection {
   background-color: var(--brand-color);
   color: white;
 }
 
-/* 布局阴影优化 */
-.ant-layout-header {
-  box-shadow: var(--shadow-sm);
-}
-
+/* 布局阴影效果 */
+.ant-layout-header,
 .ant-layout-sider {
   box-shadow: var(--shadow-sm);
 }

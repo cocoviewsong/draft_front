@@ -1,18 +1,18 @@
-/* 全局主题变量 */
+/* 全局主题变量定义 */
 :root {
-  /* 品牌色 */
+  /* 品牌主色 - 用于主要按钮、链接和重要元素 */
   --brand-color: #8b5cf6;
   --brand-color-hover: #7c3aed;
   --brand-color-pressed: #6d28d9;
   --brand-color-light: rgba(139, 92, 246, 0.1);
 
-  /* 功能色 */
+  /* 功能色 - 用于提示、警告、错误等状态 */
   --success-color: #10b981;
   --warning-color: #f59e0b;
   --error-color: #ef4444;
   --info-color: #3b82f6;
 
-  /* 浅色主题默认值 */
+  /* 背景色系 - 用于不同层级的背景 */
   --header-bg: #ffffff;
   --header-accent: #f9fafb;
   --sider-bg: #ffffff;
@@ -22,18 +22,18 @@
   --hover-bg: #f9fafb;
   --active-bg: #f3f4f6;
 
-  /* 阴影 */
+  /* 阴影 - 用于不同层级的元素阴影 */
   --shadow-color: rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
-  /* 边框 */
+  /* 边框 - 用于分割线和边框 */
   --border-color: #e5e7eb;
   --border-color-light: #f3f4f6;
   --border-color-dark: #d1d5db;
 
-  /* 文字 */
+  /* 文字颜色 - 不同重要程度的文字 */
   --text-primary: #111827;
   --text-secondary: #4b5563;
   --text-disabled: #9ca3af;
@@ -48,7 +48,7 @@
   --chat-bot-bg: #f9fafb;
   --chat-time: #9ca3af;
 
-  /* 滚动条 */
+  /* 滚动条样式 */
   --scrollbar-thin-thumb: #e5e7eb;
   --scrollbar-thin-track: #f9fafb;
   --scrollbar-auto-thumb: #e5e7eb;
@@ -68,7 +68,7 @@
   --ant-primary-6: var(--brand-color-hover);
   --ant-primary-7: var(--brand-color-pressed);
 
-  /* 按钮相关 */
+  /* 按钮样式变量 */
   --ant-btn-primary-bg: var(--brand-color);
   --ant-btn-primary-color: white;
   --ant-btn-primary-border: var(--brand-color);
@@ -92,28 +92,16 @@
   --ant-btn-disable-bg: var(--active-bg);
   --ant-btn-disable-border: var(--border-color);
 
-  /* 功能色 */
-  --ant-success-color: var(--success-color);
-  --ant-warning-color: var(--warning-color);
-  --ant-error-color: var(--error-color);
-  --ant-info-color: var(--info-color);
-
-  /* 圆角 */
+  /* 其他 Ant Design Vue 组件变量 */
   --ant-border-radius-base: 6px;
-
-  /* 背景和边框 */
   --ant-component-background: var(--card-bg);
   --ant-body-background: var(--content-bg);
   --ant-border-color-base: var(--border-color);
   --ant-border-color-split: var(--border-color-light);
-
-  /* 文字颜色 */
   --ant-text-color: var(--text-primary);
   --ant-text-color-secondary: var(--text-secondary);
   --ant-disabled-color: var(--text-disabled);
   --ant-disabled-bg: var(--active-bg);
-
-  /* 阴影 */
   --ant-shadow-1-up: var(--shadow-sm);
   --ant-shadow-1-down: var(--shadow-sm);
   --ant-shadow-1-left: var(--shadow-sm);
@@ -122,7 +110,7 @@
   --ant-shadow-3: var(--shadow-lg);
 }
 
-/* 深色主题 */
+/* 深色主题变量 */
 :root[data-theme='dark'] {
   /* 主要背景色 */
   --header-bg: #1a1b26;
@@ -164,48 +152,105 @@
   --scrollbar-auto-thumb: #414868;
   --scrollbar-auto-track: #24283b;
 
-  /* Ant Design Vue 变量覆盖 - 深色主题 */
-  /* 按钮相关 */
-  --ant-btn-primary-bg: var(--brand-color);
-  --ant-btn-primary-color: white;
-  --ant-btn-primary-border: var(--brand-color);
-
-  --ant-btn-default-color: var(--text-secondary);
-  --ant-btn-default-border: var(--border-color);
-  --ant-btn-default-bg: var(--card-bg);
-
-  --ant-btn-default-hover-color: var(--brand-color);
-  --ant-btn-default-hover-border: var(--brand-color);
-  --ant-btn-default-hover-bg: var(--brand-color-light);
-
-  --ant-btn-primary-hover-bg: var(--brand-color-hover);
-  --ant-btn-primary-hover-color: white;
-  --ant-btn-primary-hover-border: var(--brand-color-hover);
-
-  --ant-btn-primary-active-bg: var(--brand-color-pressed);
-  --ant-btn-primary-active-border: var(--brand-color-pressed);
-
-  --ant-btn-disable-color: var(--text-disabled);
-  --ant-btn-disable-bg: var(--active-bg);
-  --ant-btn-disable-border: var(--border-color);
-
-  /* 组件背景和边框 */
+  /* Ant Design Vue 深色主题变量覆盖 */
   --ant-component-background: var(--card-bg);
   --ant-body-background: var(--content-bg);
   --ant-border-color-base: var(--border-color);
   --ant-border-color-split: var(--border-color-light);
-
-  /* 文字颜色 */
   --ant-text-color: var(--text-primary);
   --ant-text-color-secondary: var(--text-secondary);
   --ant-disabled-color: var(--text-disabled);
   --ant-disabled-bg: var(--active-bg);
+}
 
-  /* 阴影 */
-  --ant-shadow-1-up: var(--shadow-sm);
-  --ant-shadow-1-down: var(--shadow-sm);
-  --ant-shadow-1-left: var(--shadow-sm);
-  --ant-shadow-1-right: var(--shadow-sm);
-  --ant-shadow-2: var(--shadow-md);
-  --ant-shadow-3: var(--shadow-lg);
+/* 重置样式 */
+.ant-modal .ant-modal-content {
+  background-color: var(--card-bg) !important;
+}
+
+/* 上传组件样式重置 */
+.ant-upload-wrapper .ant-upload-drag {
+  background-color: var(--card-bg) !important;
+  border: 2px dashed var(--brand-color) !important;
+}
+
+.ant-upload-wrapper .ant-upload-drag:hover {
+  border-color: var(--brand-color-hover) !important;
+  background-color: var(--hover-bg) !important;
+}
+
+.ant-upload-wrapper .ant-upload-drag:active {
+  background-color: var(--active-bg) !important;
+}
+
+.ant-upload-wrapper .ant-upload-drag .ant-upload-text {
+  color: var(--text-primary) !important;
+}
+
+.ant-upload-wrapper .ant-upload-drag .ant-upload-hint {
+  color: var(--text-secondary) !important;
+}
+
+.ant-upload-wrapper .ant-upload-drag .anticon {
+  color: var(--brand-color) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item {
+  background: var(--card-bg) !important;
+  border-color: var(--border-color-light) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item:hover {
+  background: var(--hover-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item .ant-upload-list-item-name {
+  color: var(--text-primary) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item .ant-upload-list-item-card-actions .anticon {
+  color: var(--text-secondary) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item .ant-upload-list-item-card-actions .anticon:hover {
+  color: var(--brand-color) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item-error {
+  border-color: var(--error-color) !important;
+  background: color-mix(in srgb, var(--error-color) 10%, var(--card-bg)) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item-error .ant-upload-list-item-name {
+  color: var(--error-color) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item-error .anticon {
+  color: var(--error-color) !important;
+}
+
+/* 已完成项的样式 */
+.ant-upload-wrapper .ant-upload-list-item-done {
+  border-color: var(--border-color) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item-done .ant-upload-list-item-name {
+  color: var(--text-primary) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item-done .ant-upload-list-item-icon {
+  color: var(--success-color) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item-done .anticon {
+  color: var(--text-secondary) !important;
+}
+
+.ant-upload-wrapper .ant-upload-list-item-done:hover .anticon {
+  color: var(--brand-color) !important;
+}
+
+.ant-upload-wrapper .ant-progress-bg {
+  background: var(--brand-color) !important;
 }

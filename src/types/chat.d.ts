@@ -1,4 +1,3 @@
-// stores/chatData.d.ts
 export type MessageSender = 'user' | 'bot'
 export type MessageType = 'text' | 'image' | 'audio' | 'video'
 export type MessageStatus = 'pending' | 'sent' | 'delivered' | 'read' | 'failed'

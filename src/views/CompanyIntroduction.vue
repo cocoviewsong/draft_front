@@ -1,3 +1,7 @@
+<!-- 
+公司介绍组件
+用于展示公司相关信息
+-->
 <template>
   <div class="company-introduction">
     <!-- 内容容器 -->
@@ -87,8 +91,27 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: var(--content-bg);
-  color: var(--text-primary);
+}
+
+/* 滚动条样式 */
+.content-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.content-container::-webkit-scrollbar-track {
+  background: var(--scrollbar-auto-track);
+  border-radius: 8px;
+}
+
+.content-container::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-auto-thumb);
+  border-radius: 8px;
+  border: 2px solid var(--scrollbar-auto-track);
+}
+
+.content-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-auto-thumb);
 }
 
 /* 内容容器样式 */

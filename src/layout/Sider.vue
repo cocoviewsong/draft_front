@@ -1,4 +1,12 @@
+<!-- 
+侧边栏导航组件
+提供以下功能：
+1. 显示应用程序的主要导航菜单
+2. 支持菜单项的选中和高亮
+3. 支持折叠展开
+-->
 <template>
+  <!-- 侧边栏容器 -->
   <div
     style="
       width: 200px;
@@ -27,7 +35,7 @@ import {
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons-vue'
-import type { MenuItemClickEvent } from './Sider.types'
+import type { MenuItemClickEvent } from '@/types/layout'
 import { useRouter, useRoute } from 'vue-router'
 import { useChatDataStore } from '@/stores/chatData'
 

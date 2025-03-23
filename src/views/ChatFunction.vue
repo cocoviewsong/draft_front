@@ -1,18 +1,22 @@
+<!-- ChatFunction.vue - 聊天功能主组件 -->
 <template>
+  <!-- 聊天界面主容器 -->
   <div class="chat-wrapper">
+    <!-- 消息显示区域 -->
     <div class="chat-messages" id="chatMessages" ref="messagesContainer">
       <Chat :chatMessageList="getCurrentMessages"></Chat>
     </div>
 
+    <!-- 底部输入区域 -->
     <div class="chat-input-area">
-      <!-- 上传区域 -->
+      <!-- 文件上传区域 - 支持拖拽上传  checkpoint action属性 指向后端文件系统接口 -->
       <div class="upload-area" :class="{ 'upload-area-active': showUpload }">
         <a-upload-dragger
           class="custom-upload-dragger"
           v-model:fileList="fileList"
           name="file"
           :multiple="true"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action="http://localhost:3000/upload"
           @change="handleChange"
           @drop="handleDrop"
         >
@@ -24,7 +28,7 @@
         </a-upload-dragger>
       </div>
 
-      <!-- 输入区域 -->
+      <!-- 文本输入区域 -->
       <div class="input-wrapper">
         <a-textarea
           class="custom-textarea input-textarea"
@@ -34,6 +38,7 @@
           :disabled="isLoading"
           @keydown="handlePressEnter"
         />
+        <!-- 操作按钮区域 -->
         <div class="input-actions">
           <a-button
             class="custom-btn upload-btn"
@@ -58,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+// 导入所需的组件和工具
 import { ref, h, useTemplateRef, onMounted, nextTick, watch, computed } from 'vue'
 import { ArrowUpOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import Chat from '@/components/Chat.vue'
@@ -67,17 +73,19 @@ import { useChatDataStore } from '@/stores/chatData'
 import type { UploadChangeParam } from 'ant-design-vue'
 import { nanoid } from 'nanoid'
 
+// 初始化 store 和状态
 const chatDataStore = useChatDataStore()
 const { getCurrentMessages, getCurrentFileList } = storeToRefs(chatDataStore)
 const { createNewSession, addMessage, updateFileList } = chatDataStore
 
-const userInputText = ref('')
-const isLoading = ref(false)
-const messagesContainerDOM = useTemplateRef('messagesContainer')
-const showUpload = ref(false)
-const fileList = ref<any[]>([])
+// 组件状态管理
+const userInputText = ref('') // 用户输入文本
+const isLoading = ref(false) // 加载状态
+const messagesContainerDOM = useTemplateRef('messagesContainer') // 消息容器引用
+const showUpload = ref(false) // 上传区域显示状态
+const fileList = ref<any[]>([]) // 文件列表
 
-// 监听 store 中的文件列表变化
+// 监听文件列表变化
 watch(
   getCurrentFileList,
   (newFileList) => {
@@ -94,71 +102,44 @@ const isEmptyText = computed(() => {
 })
 
 /**
- * 检查文本是否包含危险内容
- */
-const hasDangerousContent = (text: string): boolean => {
-  // 检查常见的XSS攻击模式
-  const dangerousPatterns = [
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, // <script>标签
-    /javascript:/gi, // javascript:协议
-    /on\w+\s*=/gi, // onclick等事件处理程序
-    /data:/gi, // data:协议
-    /<iframe/gi, // iframe标签
-    /<img[^>]+src[^>]*/gi, // img标签
-  ]
-
-  return dangerousPatterns.some((pattern) => pattern.test(text))
-}
-
-/**
- * 净化用户输入
+ * 净化用户输入文本
+ * @param text 原始输入文本
+ * @returns 处理后的文本
  */
 const sanitizeInput = (text: string): string => {
-  // 使用 JSON.stringify 进行字符串化，去掉首尾的引号
   return JSON.stringify(text).slice(1, -1)
 }
 
 /**
- * 切换上传区域显示
+ * 切换文件上传区域的显示状态
  */
 const toggleUpload = () => {
   showUpload.value = !showUpload.value
 }
 
 /**
- * 处理文件上传
+ * 处理文件上传状态变化
+ * @param info 上传信息对象
  */
 const handleChange = (info: UploadChangeParam) => {
-  // 更新文件列表到 store
   updateFileList(info.fileList as any[])
-
   if (info.file.status === 'done') {
     message.success(`${info.file.name} 上传成功`)
-    // 添加文件消息到聊天
-    addMessage({
-      id: nanoid(),
-      type: 'file',
-      sender: 'user',
-      avatar: '/user-avatar.png',
-      content: info.file.name,
-      fileUrl: info.file.response.url,
-      fileType: info.file.type,
-      fileSize: info.file.size,
-    })
   } else if (info.file.status === 'error') {
     message.error(`${info.file.name} 上传失败`)
   }
 }
 
 /**
- * 处理拖拽
+ * 处理文件拖拽事件
  */
 const handleDrop = (e: DragEvent) => {
   console.log(e)
 }
 
 /**
- * 处理按键事件
+ * 处理键盘按键事件
+ * Ctrl+Enter 换行，Enter 发送消息
  */
 const handlePressEnter = (e: { key: string; ctrlKey: any; preventDefault: () => void }) => {
   if (e.key === 'Enter') {
@@ -173,41 +154,71 @@ const handlePressEnter = (e: { key: string; ctrlKey: any; preventDefault: () => 
 
 /**
  * 处理发送消息
+ * 包括文本消息和文件消息的处理
  */
 const handleSendMessage = async () => {
   try {
-    if (isLoading.value || isEmptyText.value) return
-
-    // 检查危险内容
-    if (hasDangerousContent(userInputText.value)) {
-      message.error('消息包含不安全的内容，已被阻止发送')
-      return
-    }
+    if (isLoading.value || (isEmptyText.value && fileList.value.length === 0)) return
 
     isLoading.value = true
 
-    // 净化用户输入
     const sanitizedText = sanitizeInput(userInputText.value)
 
+    // 创建消息内容对象
+    const messageContent = {
+      text: sanitizedText,
+      files: fileList.value
+        .filter((file) => file.status === 'done')
+        .map((file) => ({
+          name: file.name,
+          url: file.response?.url,
+          type: file.type,
+          size: file.size,
+        })),
+    }
+
+    // 添加用户消息到聊天列表
     addMessage({
       id: nanoid(),
-      type: 'text',
+      type: 'combined',
       sender: 'user',
       avatar: '/user-avatar.png',
-      content: sanitizedText,
+      content: messageContent,
     })
+
+    // checkpoint,sanitizedText是用户输入的文本内容，发送到服务器进行处理,axios或fetch发送
+    // const botResponse = await fetch('http://localhost:3000/chat', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body:sanitizedText,
+    // })
+    // const data = await botResponse.json()
+
+    // 添加机器人回复
+    /*    addMessage({
+      id: nanoid(),
+      type: 'text',
+      sender: 'bot',
+      avatar: '/bot-avatar.png',
+      content: botResponse,
+    }) */
   } catch {
     message.error('请求失败，请稍后再试')
   } finally {
+    // 重置状态
     isLoading.value = false
     userInputText.value = ''
+    updateFileList([])
+    showUpload.value = false
     await nextTick()
     scrollToBottom()
   }
 }
 
 /**
- * 滚动到底部
+ * 滚动到消息列表底部
  */
 const scrollToBottom = () => {
   if (messagesContainerDOM.value) {

@@ -12,9 +12,11 @@
           @click="themeStore.setTheme('light')"
         >
           <div class="theme-preview light">
-            <div class="preview-header"></div>
-            <div class="preview-sidebar"></div>
-            <div class="preview-content"></div>
+            <div class="preview-header" style="height: 20px"></div>
+            <div style="display: flex; flex: 1">
+              <div class="preview-sidebar" style="width: 40px"></div>
+              <div class="preview-content" style="flex: 1"></div>
+            </div>
           </div>
           <span>浅色主题</span>
         </div>
@@ -25,9 +27,11 @@
           @click="themeStore.setTheme('dark')"
         >
           <div class="theme-preview dark">
-            <div class="preview-header"></div>
-            <div class="preview-sidebar"></div>
-            <div class="preview-content"></div>
+            <div class="preview-header" style="height: 20px"></div>
+            <div style="display: flex; flex: 1">
+              <div class="preview-sidebar" style="width: 40px"></div>
+              <div class="preview-content" style="flex: 1"></div>
+            </div>
           </div>
           <span>深色主题</span>
         </div>
@@ -38,9 +42,11 @@
           @click="followSystem"
         >
           <div class="theme-preview" :class="getSystemTheme()">
-            <div class="preview-header"></div>
-            <div class="preview-sidebar"></div>
-            <div class="preview-content"></div>
+            <div class="preview-header" style="height: 20px"></div>
+            <div style="display: flex; flex: 1">
+              <div class="preview-sidebar" style="width: 40px"></div>
+              <div class="preview-content" style="flex: 1"></div>
+            </div>
           </div>
           <span>跟随系统</span>
         </div>
@@ -93,9 +99,17 @@ const followSystem = () => {
   color: var(--text-primary);
 }
 
+/* 主题切换器容器 */
 .theme-switcher {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  max-width: 100%;
 }
 
 .theme-option {
@@ -108,45 +122,83 @@ const followSystem = () => {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-}
+  width: 100%;
 
-.theme-option:hover {
-  background: var(--header-accent);
-}
+  &:hover {
+    background: var(--header-accent);
+  }
 
-.theme-option.active {
-  border-color: var(--brand-color);
-}
+  &.active {
+    border-color: var(--brand-color);
+    background: var(--brand-color-light);
+  }
 
-.theme-option span {
-  color: var(--text-primary);
-  font-size: 14px;
+  span {
+    color: var(--text-primary);
+    font-size: 14px;
+  }
 }
 
 .theme-preview {
-  width: 200px;
+  width: 100%;
   height: 120px;
   border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border-color);
+
+  /* 浅色主题预览 */
+  &.light {
+    .preview-header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .preview-sidebar {
+      background-color: #ffffff;
+      border-right: 1px solid #e5e7eb;
+    }
+
+    .preview-content {
+      background-color: #f3f4f6;
+    }
+  }
+
+  /* 深色主题预览 */
+  &.dark {
+    .preview-header {
+      background-color: #1a1b26;
+      border-bottom: 1px solid #24283b;
+    }
+
+    .preview-sidebar {
+      background-color: #24283b;
+      border-right: 1px solid #24283b;
+    }
+
+    .preview-content {
+      background-color: #1a1b26;
+    }
+  }
 }
 
-.preview-header {
-  height: 20px;
-  background-color: var(--header-bg);
-  border-bottom: 1px solid var(--border-color);
-}
-
-.preview-sidebar {
-  width: 40px;
-  background-color: var(--sider-bg);
-  border-right: 1px solid var(--border-color);
-}
-
+/* 移除原有的预览样式 */
+.preview-header,
+.preview-sidebar,
 .preview-content {
-  flex: 1;
-  background-color: var(--content-bg);
+  transition: all 0.3s ease;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+  .theme-switcher {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-preview {
+    max-width: 300px;
+    margin: 0 auto;
+  }
 }
 </style>

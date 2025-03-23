@@ -1,3 +1,7 @@
+<!-- 
+主页组件
+用于展示应用程序的主页内容
+-->
 <template>
   <div class="home">
     <!-- 导航栏 -->
@@ -112,6 +116,27 @@ const features = [
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+/* 滚动条样式 */
+.content-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.content-container::-webkit-scrollbar-track {
+  background: var(--scrollbar-auto-track);
+  border-radius: 8px;
+}
+
+.content-container::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-auto-thumb);
+  border-radius: 8px;
+  border: 2px solid var(--scrollbar-auto-track);
+}
+
+.content-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-auto-thumb);
 }
 
 .header {

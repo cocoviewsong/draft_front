@@ -1,3 +1,5 @@
+// 这里的代码开发需要(TS类型有用)，运行不需要
+
 // stores/chatData.ts
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
@@ -13,28 +15,28 @@ export const useChatDataStore1 = defineStore('chatData1', () => {
    */
   // const chatSessions = ref<ChatSession[]>([])
   const chatSessions = ref([
-    {
-      id: '1',
-      title: '对话1',
-      messages: {
-        id: '666',
-        sender: 'bot',
-        avatar: 'bot',
-        content: '你好1',
-        type: 'text',
-      },
-    },
-    {
-      id: '2',
-      title: '对话2',
-      messages: {
-        id: '666',
-        sender: 'bot',
-        avatar: 'bot',
-        content: '你好2',
-        type: 'text',
-      },
-    },
+    // {
+    //   id: '1',
+    //   title: '对话1',
+    //   messages: {
+    //     id: '666',
+    //     sender: 'bot',
+    //     avatar: 'bot',
+    //     content: '你好1',
+    //     type: 'text',
+    //   },
+    // },
+    // {
+    //   id: '2',
+    //   title: '对话2',
+    //   messages: {
+    //     id: '666',
+    //     sender: 'bot',
+    //     avatar: 'bot',
+    //     content: '你好2',
+    //     type: 'text',
+    //   },
+    // },
   ])
 
   // 当前选中的会话ID

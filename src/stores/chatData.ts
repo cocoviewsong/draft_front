@@ -2,13 +2,26 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { nanoid } from 'nanoid'
+// import type { ChatSession, ChatMessage, NewChatMessage } from '@/types/chat'
+
+interface FileInfo {
+  name: string
+  url: string
+  type: string
+  size: number
+}
+
+interface CombinedContent {
+  text: string
+  files: FileInfo[]
+}
 
 interface MessagesType {
   id: string
-  sender: string
+  sender: 'bot' | 'user'
   avatar: string
-  content: string
-  type: string
+  type: 'text' | 'file' | 'combined'
+  content: string | CombinedContent
   fileUrl?: string
   fileType?: string
   fileSize?: number
@@ -98,7 +111,7 @@ export const useChatDataStore = defineStore('chatData', () => {
    */
   const createNewSession = () => {
     const newSessionId = nanoid()
-    const newSession = {
+    const newSession: Conversation = {
       id: newSessionId,
       title: `对话${chatSessions.value.length + 1}`,
       messages: [
